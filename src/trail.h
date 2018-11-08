@@ -25,13 +25,16 @@ class Trail {
 public:
     ofVec2f pos = { ofGetWidth() / 2.f, ofGetHeight() / 2.f };
     float speed = 1;
-    float lastUpdate = 0; // the local time of the last call to update
     void render();
     void update(float deltaT);
     void setup();
     void add();
 private:
-    float time = 0; // time
+    float time = 0;
+    float tickResolution = 1.f / 60.f;
+    float currentTickTime = 0.0f;
+    float previousTickTime = 0.0f;
+    long int ticksElapsed = 0;
     std::list <Particle> all;
 };
 

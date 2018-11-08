@@ -7,6 +7,7 @@ void ofApp::setup(){
     
     // add a trail to the screen;
     Trail t;
+    t.pos.y += 400;
     t.setup();
     renderables.push_back(t);
 }

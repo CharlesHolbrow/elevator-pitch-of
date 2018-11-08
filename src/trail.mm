@@ -16,7 +16,7 @@ void Trail::render() {
         float g = 128 + 127 * cos(time * 0.2);
         float b = 128 + 127 * cos(time * 0.7);
         ofSetColor(r, g, b);
-        
+
         ofVec2f gPos = pos + itr->pos; // global position
         ofDrawCircle(gPos.x, gPos.y, itr->radius);
         i++;
@@ -24,29 +24,33 @@ void Trail::render() {
 }
 
 void Trail::setup() {
-    
+
 }
 
 void Trail::update(float deltaT) {
+    // total duration since last update
     float localDeltaT = deltaT * speed;
     time += localDeltaT;
 
-    unsigned int i = 0;
-    for (auto itr = all.begin(); itr != all.end(); itr++) {
-//        itr->vel.y = 400 * sin(t + i * 0.1);
-//        itr->vel.x = 500 * sin(t + i * 0.2);
+    //
+    for (float innerTime = previousTickTime + tickResolution; innerTime < time; innerTime += tickResolution) {
+        // everything in this loop happens exactly at the same time
+        currentTickTime = innerTime;
 
-        // slowly shrink
-        itr->radius *= 1 - (localDeltaT * 0.2);
+        for (auto itr = all.begin(); itr != all.end(); itr++) {
+            // slowly shrink
+            itr->radius *= 1 - (tickResolution * 0.2);
+            // update position based on velocity
+            itr->update(tickResolution);
+        }
 
-        // update position based on velocity
-        itr->update(localDeltaT);
-        
-        i++;
-    };
-    
-    if (all.size() < 400) {
-        add();
+        // potentially add a dot
+        if (ticksElapsed % 2000 < 1200) {
+            add();
+        }
+
+        previousTickTime = innerTime;
+        ticksElapsed++;
     }
 
     // begin()/end() return iterators -- pass this erase()
@@ -61,8 +65,8 @@ void Trail::update(float deltaT) {
 
 void Trail::add() {
     Particle p;
-    p.vel.x = sin(time) * 50;
-    p.vel.y = -40;
-    p.radius = 40 - 30 * cos(time / 3.);
+    p.vel.x = sin(currentTickTime) * 20;
+    p.vel.y = -60;
+    p.radius = 40 - 30 * cos(currentTickTime / 3.);
     all.push_front(p);
 }
