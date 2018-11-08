@@ -18,6 +18,7 @@ void ofApp::update(){
     lastTime = currentTime;
 
     for (unsigned int i = 0; i < renderables.size(); i++) {
+//        renderables[i].update(1.f / 60.f);
         renderables[i].update(deltaT);
     }
 }
@@ -42,7 +43,9 @@ void ofApp::touchDown(ofTouchEventArgs & touch){
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & touch){
-
+    if (renderables.size() > 0) {
+        renderables.front().add();
+    };
 }
 
 //--------------------------------------------------------------

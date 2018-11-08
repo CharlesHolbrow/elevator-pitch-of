@@ -11,50 +11,58 @@
 void Trail::render() {
     unsigned int i = 0;
     for (auto itr = all.cbegin(); itr != all.cend(); ++itr) {
-        auto p = *itr;
-        float r = 128 + 127 * cos(t * 0.1 + i * 0.1);
-        float g = 128 + 127 * cos(t * 0.2);
-        float b = 128 + 127 * cos(t * 0.3);
+
+        float r = 128 + 127 * cos(time * 0.4 + i * 0.01);
+        float g = 128 + 127 * cos(time * 0.2);
+        float b = 128 + 127 * cos(time * 0.7);
         ofSetColor(r, g, b);
-        ofDrawCircle(x + p.pos.x, y + p.pos.y, p.radius);
+        
+        ofVec2f gPos = pos + itr->pos; // global position
+        ofDrawCircle(gPos.x, gPos.y, itr->radius);
         i++;
     }
 }
 
 void Trail::setup() {
-    for (unsigned int i = 0; i < 40; i++){
-        Particle p;
-        p.pos.x = float(i * 15);
-        p.pos.y = float(i * 15);
-        p.radius = float(i * 3);
-        p.vel.x = 10 * sin(i * 0.1);
-        p.vel.y = -15 * sin(i * 0.1);
-        all.push_back(p);
-    }
+    
 }
 
 void Trail::update(float deltaT) {
-    float localDeltaT = deltaT * s;
-    t += localDeltaT;
+    float localDeltaT = deltaT * speed;
+    time += localDeltaT;
 
     unsigned int i = 0;
     for (auto itr = all.begin(); itr != all.end(); itr++) {
-//        all[i].vel.y = 30 * sin(t + i * 0.1);
-//        all[i].vel.x = 30 * sin(t + i * 0.2);
+//        itr->vel.y = 400 * sin(t + i * 0.1);
+//        itr->vel.x = 500 * sin(t + i * 0.2);
+
+        // slowly shrink
+        itr->radius *= 1 - (localDeltaT * 0.2);
+
+        // update position based on velocity
+        itr->update(localDeltaT);
         
-        // update position based on velocity;
-        itr->radius *= 1 - (localDeltaT * 0.01);
-        itr->pos.x += localDeltaT * itr->vel.x;
-        itr->pos.y += localDeltaT * itr->vel.y;
         i++;
     };
+    
+    if (all.size() < 400) {
+        add();
+    }
 
     // begin()/end() return iterators -- pass this erase()
     // front()/back() return elements
     
     if (all.size() > 0) {
-        if (all.back().radius < 0.1) {
+        if (all.back().radius < 0.5) {
             all.pop_back();
         }
     }
+}
+
+void Trail::add() {
+    Particle p;
+    p.vel.x = sin(time) * 50;
+    p.vel.y = -40;
+    p.radius = 40 - 30 * cos(time / 3.);
+    all.push_front(p);
 }
