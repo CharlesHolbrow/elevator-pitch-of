@@ -5,7 +5,10 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetCircleResolution(40);
+
     coreMotion.setupAccelerometer();
+    coreMotion.setupGyroscope();
+    coreMotion.setupAttitude(CMAttitudeReferenceFrameXMagneticNorthZVertical);
     
 
     // add a trail to the screen;
@@ -31,14 +34,13 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     auto v = coreMotion.getAccelerometerData() - coreMotion.getGravity();
-    v.z += 1;
+
     ofBackground(v.length() * 200);
-    ofLog() << v.x << "   " << v.y << "   " << v.z;
-//    ofLog() << coreMotion.getGravity();
     for (unsigned int i = 0; i < renderables.size(); i++) {
         renderables[i].render();
     };
-    line.draw();
+    l1.draw();
+    l2.draw();
 }
 
 //--------------------------------------------------------------
@@ -49,20 +51,23 @@ void ofApp::exit(){
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs & touch){
     ofLog() << "touch down " << touch.id << " | " << touch.x << ", " << touch.y;
-    line.clear();
-    line.addVertex(touch.x, touch.y);
+    l1.clear();
+    l1.addVertex(touch.x, touch.y);
+    l2.clear();
+    l2.addVertex(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & touch){
-    line.curveTo(touch.x, touch.y);
+    l1.curveTo(touch.x, touch.y);
+    l2.addVertex(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs & touch){
     ofLog() << "touch up " << touch.id << " | " << touch.x << ", " << touch.y;
-    line.simplify();
-    line.close();
+    l1.close();
+    l2.close();
 }
 
 //--------------------------------------------------------------

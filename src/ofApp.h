@@ -26,7 +26,8 @@ class ofApp : public ofxiOSApp{
     ofxiOSCoreMotion coreMotion;
     vector < Trail > renderables;
     float lastTime = 0;
-    ofPolyline line;
+    ofPolyline l1;
+    ofPolyline l2;
 };
 
 
