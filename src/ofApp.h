@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofxiOS.h"
+#include "ofxiOSCoreMotion.h"
 #include "trail.h"
 
 class ofApp : public ofxiOSApp{
@@ -21,9 +22,11 @@ class ofApp : public ofxiOSApp{
         void gotFocus();
         void gotMemoryWarning();
         void deviceOrientationChanged(int newOrientation);
-    
+
+    ofxiOSCoreMotion coreMotion;
     vector < Trail > renderables;
     float lastTime = 0;
+    ofPolyline line;
 };
 
 
