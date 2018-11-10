@@ -23,12 +23,13 @@ struct Particle {
 
 class Trail {
 public:
-    ofVec2f pos = { ofGetWidth() / 2.f, ofGetHeight() / 2.f };
+    ofVec2f pos = { 0, 0 };
     float speed = 1;
     void render();
     void update(float deltaT);
     void setup();
     void add();
+    void add(float x, float y);
 private:
     float time = 0;
     float tickResolution = 1.f / 60.f;

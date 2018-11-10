@@ -12,10 +12,18 @@ void ofApp::setup(){
     
 
     // add a trail to the screen;
-    Trail t;
-    t.pos.y += 400;
-    t.setup();
-    renderables.push_back(t);
+    Trail t1;
+    t1.pos.x = ofGetWidth() / 2;
+    t1.pos.y = ofGetHeight() / 2;
+    t1.pos.y += 400;
+    t1.setup();
+    renderables.push_back(t1);
+
+    Trail t2;
+    t2.setup();
+    t2.pos.x = 400;
+    t2.pos.y = 800;
+    renderables.push_back(t2);
 }
 
 //--------------------------------------------------------------
@@ -61,6 +69,7 @@ void ofApp::touchDown(ofTouchEventArgs & touch){
 void ofApp::touchMoved(ofTouchEventArgs & touch){
     l1.curveTo(touch.x, touch.y);
     l2.addVertex(touch.x, touch.y);
+    renderables.back().add(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------

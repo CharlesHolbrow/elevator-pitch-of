@@ -2,6 +2,7 @@
 
 #include "ofxiOS.h"
 #include "ofxiOSCoreMotion.h"
+#include "ofxOsc.h"
 #include "trail.h"
 
 class ofApp : public ofxiOSApp{
@@ -23,11 +24,13 @@ class ofApp : public ofxiOSApp{
         void gotMemoryWarning();
         void deviceOrientationChanged(int newOrientation);
 
+    // ofx addons
     ofxiOSCoreMotion coreMotion;
+    ofxOscSender oscSender;
+
+    // My objects
     vector < Trail > renderables;
     float lastTime = 0;
     ofPolyline l1;
     ofPolyline l2;
 };
-
-

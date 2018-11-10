@@ -44,10 +44,10 @@ void Trail::update(float deltaT) {
             itr->update(tickResolution);
         }
 
-        // potentially add a dot
-        if (ticksElapsed % 2000 < 1200) {
-            add();
-        }
+//        // potentially add a dot
+//        if (ticksElapsed % 2000 < 1200) {
+//            add();
+//        }
 
         previousTickTime = innerTime;
         ticksElapsed++;
@@ -65,6 +65,16 @@ void Trail::update(float deltaT) {
 
 void Trail::add() {
     Particle p;
+    p.vel.x = sin(currentTickTime) * 20;
+    p.vel.y = -60;
+    p.radius = 40 - 30 * cos(currentTickTime / 3.);
+    all.push_front(p);
+}
+
+void Trail::add(float x, float y) {
+    Particle p;
+    p.pos.x = x;
+    p.pos.y = y;
     p.vel.x = sin(currentTickTime) * 20;
     p.vel.y = -60;
     p.radius = 40 - 30 * cos(currentTickTime / 3.);
