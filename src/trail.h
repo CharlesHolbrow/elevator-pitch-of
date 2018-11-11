@@ -10,6 +10,7 @@
 
 #include <array>
 #include "ofxiOS.h"
+
 struct Particle {
     ofVec2f pos;   // pixels
     ofVec2f vel;   // pixels / second
@@ -35,7 +36,8 @@ private:
     float tickResolution = 1.f / 60.f;
     float currentTickTime = 0.0f;
     float previousTickTime = 0.0f;
-    long int ticksElapsed = 0;
+    long int ticksElapsed = 0.0;
+
     std::list <Particle> all;
 };
 

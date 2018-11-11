@@ -25,6 +25,7 @@
 		56F4F352219765C300223B55 /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56F4F33F219765C300223B55 /* ofxOscSender.cpp */; };
 		56F4F353219765C300223B55 /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56F4F344219765C300223B55 /* ofxOscBundle.cpp */; };
 		56F4F354219765C300223B55 /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56F4F346219765C300223B55 /* ofxOscParameterSync.cpp */; };
+		56F4F35821978D1A00223B55 /* gesture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 56F4F35721978D1A00223B55 /* gesture.mm */; };
 		67DFA53619F92A69003B3434 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DFA53419F92A5E003B3434 /* Accelerate.framework */; };
 		901808C12053638E004A7774 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901808BF2053636F004A7774 /* GLKit.framework */; };
 		9936F6101BFA4DEE00891288 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9936F60F1BFA4DEE00891288 /* Images.xcassets */; };
@@ -101,6 +102,8 @@
 		56F4F344219765C300223B55 /* ofxOscBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscBundle.cpp; sourceTree = "<group>"; };
 		56F4F345219765C300223B55 /* ofxOscParameterSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOscParameterSync.h; sourceTree = "<group>"; };
 		56F4F346219765C300223B55 /* ofxOscParameterSync.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscParameterSync.cpp; sourceTree = "<group>"; };
+		56F4F35721978D1A00223B55 /* gesture.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = gesture.mm; sourceTree = "<group>"; };
+		56F4F35921978D8F00223B55 /* gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gesture.h; sourceTree = "<group>"; };
 		67DFA53419F92A5E003B3434 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		901808BF2053636F004A7774 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		9936F60F1BFA4DEE00891288 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -375,6 +378,8 @@
 				E4D8936C11527B74007E1F53 /* ofApp.h */,
 				5602B61A2190D47A00E7AE9B /* trail.h */,
 				5602B61B2190D47A00E7AE9B /* trail.mm */,
+				56F4F35721978D1A00223B55 /* gesture.mm */,
+				56F4F35921978D8F00223B55 /* gesture.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -485,6 +490,7 @@
 				56F4F350219765C300223B55 /* ofxOscMessage.cpp in Sources */,
 				56F4F354219765C300223B55 /* ofxOscParameterSync.cpp in Sources */,
 				56F4F34C219765C300223B55 /* NetworkingUtils.cpp in Sources */,
+				56F4F35821978D1A00223B55 /* gesture.mm in Sources */,
 				56F4F34B219765C300223B55 /* UdpSocket.cpp in Sources */,
 				56F4F34A219765C300223B55 /* OscTypes.cpp in Sources */,
 				E4D8936E11527B74007E1F53 /* main.mm in Sources */,

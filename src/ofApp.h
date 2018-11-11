@@ -4,6 +4,7 @@
 #include "ofxiOSCoreMotion.h"
 #include "ofxOsc.h"
 #include "trail.h"
+#include "gesture.h"
 
 class ofApp : public ofxiOSApp{
 	
@@ -30,6 +31,8 @@ class ofApp : public ofxiOSApp{
 
     // My objects
     vector < Trail > renderables;
+    Gesture gesture;
+
     float lastTime = 0;
     ofPolyline l1;
     ofPolyline l2;

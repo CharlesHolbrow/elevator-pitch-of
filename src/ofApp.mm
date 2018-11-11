@@ -9,7 +9,6 @@ void ofApp::setup(){
     coreMotion.setupAccelerometer();
     coreMotion.setupGyroscope();
     coreMotion.setupAttitude(CMAttitudeReferenceFrameXMagneticNorthZVertical);
-    
 
     // add a trail to the screen;
     Trail t1;
@@ -63,10 +62,16 @@ void ofApp::touchDown(ofTouchEventArgs & touch){
     l1.addVertex(touch.x, touch.y);
     l2.clear();
     l2.addVertex(touch.x, touch.y);
+
+    // update gesture
+    gesture.clear();
+    gesture.append(touch.x, touch.y, ofGetElapsedTimef());
 }
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & touch){
+    gesture.append(touch.x, touch.y, ofGetElapsedTimef());
+
     l1.curveTo(touch.x, touch.y);
     l2.addVertex(touch.x, touch.y);
     renderables.back().add(touch.x, touch.y);
@@ -75,6 +80,8 @@ void ofApp::touchMoved(ofTouchEventArgs & touch){
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs & touch){
     ofLog() << "touch up " << touch.id << " | " << touch.x << ", " << touch.y;
+
+    gesture.append(touch.x, touch.y, ofGetElapsedTimef());
     l1.close();
     l2.close();
 }

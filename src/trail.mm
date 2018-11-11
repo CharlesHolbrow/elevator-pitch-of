@@ -32,7 +32,7 @@ void Trail::update(float deltaT) {
     float localDeltaT = deltaT * speed;
     time += localDeltaT;
 
-    //
+    // Run Physics engine at exactly 1/60 hz
     for (float innerTime = previousTickTime + tickResolution; innerTime < time; innerTime += tickResolution) {
         // everything in this loop happens exactly at the same time
         currentTickTime = innerTime;
@@ -53,8 +53,9 @@ void Trail::update(float deltaT) {
         ticksElapsed++;
     }
 
-    // begin()/end() return iterators -- pass this erase()
-    // front()/back() return elements
+    // Vector Methods include:
+    // begin()/end() return iterator -- pass this erase()
+    // front()/back() return element reference
     
     if (all.size() > 0) {
         if (all.back().radius < 0.5) {
