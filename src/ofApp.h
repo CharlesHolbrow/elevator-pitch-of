@@ -35,6 +35,7 @@ class ofApp : public ofxiOSApp{
     vector < Trail > renderables;
     Gesture gesture;
 
+    // misc helpers
     bool isDown = false;
     float lastTime = 0;
     ofPolyline l1;

@@ -10,8 +10,8 @@ void ofApp::setup(){
     coreMotion.setupGyroscope();
     coreMotion.setupAttitude(CMAttitudeReferenceFrameXMagneticNorthZVertical);
 
-    // add a trail to the screen;
-    Trail t1;
+
+    Trail t1; // currently unused
     t1.pos.x = ofGetWidth() / 2;
     t1.pos.y = ofGetHeight() / 2;
     t1.pos.y += 400;
@@ -22,16 +22,26 @@ void ofApp::setup(){
     t2.setup();
     renderables.push_back(t2);
 
-    ticker.tickResolution = 1.f / 120.f;
+    ticker.tickResolution = 1.f / 240.f;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     coreMotion.update();
-    ticker.setTime(ofGetElapsedTimef());
 
-    // Tickle me
+    float absoluteTime = ofGetElapsedTimef();
+    ticker.setTime(absoluteTime);
+
+    // some book keeping
+    float globalDeltaTime = absoluteTime - lastTime;
+    lastTime = absoluteTime;
+
+    int ticksThisFrame = 0;
+
+    // Tickle
     while (float tickDelta = ticker.tickIfPossible()) {
+        ticksThisFrame++;
+        // Run our physics engine on all the renderables
         for (unsigned int i = 0; i < renderables.size(); i++) {
             renderables[i].update(tickDelta);
         }
@@ -46,19 +56,33 @@ void ofApp::update(){
             }
         }
     } // ticks
+
+    if (ticksThisFrame != 4) {
+        ofLog() << globalDeltaTime << " uneven frame " << ticksThisFrame << " | " << renderables.back().size();
+    }
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofBackground(0);
-    auto v = coreMotion.getAccelerometerData() - coreMotion.getGravity();
+    // Verify that accelerometer is working
+    //auto v = coreMotion.getAccelerometerData() - coreMotion.getGravity();
+    //ofBackground(v.length() * 400);
 
-    ofBackground(v.length() * 400);
     for (unsigned int i = 0; i < renderables.size(); i++) {
         renderables[i].render();
     };
-//    l1.draw();
-//    l2.draw();
+
+    ofSetColor(255);
+    auto vertices = l2.getVertices();
+    for (unsigned int i = 0; i < vertices.size(); i++) {
+        auto v = vertices[i];
+        ofDrawCircle(v.x, v.y, 3);
+    }
+    ofSetColor(127);
+    l1.draw();
+    l2.draw();
 }
 
 //--------------------------------------------------------------
@@ -81,8 +105,16 @@ void ofApp::touchDown(ofTouchEventArgs & touch){
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & touch){
+    // Question: Ideally, touch.time would be the exact time that the event was received.
+    // - Why is touch.time always == 0?
+    // It appears basically all touch properties allways == 0
+    // - touch.angle
+    // - touch.width/height
+    // - touch.xaccel/yaccel/xspeed/yspeed
+    // Is it not possible to get these values?
     gesture.append(touch.x, touch.y, ofGetElapsedTimef());
 
+    // This is really for debug information
     l1.curveTo(touch.x, touch.y);
     l2.addVertex(touch.x, touch.y);
 }
@@ -91,8 +123,8 @@ void ofApp::touchMoved(ofTouchEventArgs & touch){
 void ofApp::touchUp(ofTouchEventArgs & touch){
     isDown = false;
     gesture.append(touch.x, touch.y, ofGetElapsedTimef());
-    l1.close();
-    l2.close();
+    l1.curveTo(touch.x, touch.y);
+    l2.addVertex(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------

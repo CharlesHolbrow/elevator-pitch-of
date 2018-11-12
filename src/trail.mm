@@ -42,7 +42,7 @@ void Trail::update(float deltaT) {
 
     // potentially add a dot
 //    if (ticksElapsed % 2000 < 1200) {
-//        add();
+//        add(0, 0);
 //    }
 
 
@@ -57,20 +57,14 @@ void Trail::update(float deltaT) {
     }
 }
 
-void Trail::add() {
-    Particle p;
-    p.vel.x = sin(time) * 20;
-    p.vel.y = -60;
-    p.radius = 40 - 30 * cos(time / 3.);
-    all.push_front(p);
-}
-
 void Trail::add(float x, float y) {
     Particle p;
     p.pos.x = x;
     p.pos.y = y;
-    p.vel.x = sin(time) * 20;
-    p.vel.y = -60;
+    p.vel.x = 0;
+    p.vel.y = 0;
+//    p.vel.x = sin(time) * 20;
+//    p.vel.y = -60;
     p.radius = 40 - 30 * cos(time / 3.);
     all.push_front(p);
 }

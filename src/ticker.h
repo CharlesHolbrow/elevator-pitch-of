@@ -16,7 +16,9 @@ public:
     // Duration of each tick in seconds
     float tickResolution = 1.f / 60.f;
 
-    // Increment global time by the frame amount. this make make more ticks possible
+    // Increment global time by the frame amount. This will probably be called
+    // on every frame of our host application. If deltaTime > tickResolution,
+    // the next call to tickIfPossible() will probably return a non-zero value.
     void advanceBy(float deltaTime) { globalTime += deltaTime; };
 
     // set the ticker's global time
@@ -42,9 +44,6 @@ public:
         }
         return 0;
     };
-
-    // What is the inner time of this ticker
-    float time() { return globalTime; };
 
     float tickTime() { return lastTickTime; };
 
