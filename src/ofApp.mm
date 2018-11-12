@@ -20,21 +20,32 @@ void ofApp::setup(){
 
     Trail t2;
     t2.setup();
-    t2.pos.x = 400;
-    t2.pos.y = 800;
     renderables.push_back(t2);
+
+    ticker.tickResolution = 1.f / 120.f;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     coreMotion.update();
-    float currentTime = ofGetElapsedTimef();
-    float deltaT = currentTime - lastTime;
-    lastTime = currentTime;
+    ticker.setTime(ofGetElapsedTimef());
 
-    for (unsigned int i = 0; i < renderables.size(); i++) {
-        renderables[i].update(deltaT);
-    }
+    // Tickle me
+    while (float tickDelta = ticker.tickIfPossible()) {
+        for (unsigned int i = 0; i < renderables.size(); i++) {
+            renderables[i].update(tickDelta);
+        }
+
+        if (isDown && renderables.size()) {
+            // There is a touch, and a renderable
+            float tickTime = ticker.tickTime();
+            if (gesture.isValidAtTime(tickTime)) {
+                // If the gesture includes this time;
+                ofVec2f gPos = gesture.positionAtTime(tickTime);
+                renderables.back().add(gPos.x, gPos.y);
+            }
+        }
+    } // ticks
 }
 
 //--------------------------------------------------------------
@@ -42,12 +53,12 @@ void ofApp::draw(){
     ofBackground(0);
     auto v = coreMotion.getAccelerometerData() - coreMotion.getGravity();
 
-    ofBackground(v.length() * 200);
+    ofBackground(v.length() * 400);
     for (unsigned int i = 0; i < renderables.size(); i++) {
         renderables[i].render();
     };
-    l1.draw();
-    l2.draw();
+//    l1.draw();
+//    l2.draw();
 }
 
 //--------------------------------------------------------------
@@ -57,7 +68,7 @@ void ofApp::exit(){
 
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs & touch){
-    ofLog() << "touch down " << touch.id << " | " << touch.x << ", " << touch.y;
+    isDown = true;
     l1.clear();
     l1.addVertex(touch.x, touch.y);
     l2.clear();
@@ -74,13 +85,11 @@ void ofApp::touchMoved(ofTouchEventArgs & touch){
 
     l1.curveTo(touch.x, touch.y);
     l2.addVertex(touch.x, touch.y);
-    renderables.back().add(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs & touch){
-    ofLog() << "touch up " << touch.id << " | " << touch.x << ", " << touch.y;
-
+    isDown = false;
     gesture.append(touch.x, touch.y, ofGetElapsedTimef());
     l1.close();
     l2.close();
@@ -94,6 +103,7 @@ void ofApp::touchDoubleTap(ofTouchEventArgs & touch){
 //--------------------------------------------------------------
 void ofApp::touchCancelled(ofTouchEventArgs & touch){
     ofLog() << "touch cancel " << touch.id << " | " << touch.x << ", " << touch.y;
+    isDown = false;
 }
 
 //--------------------------------------------------------------

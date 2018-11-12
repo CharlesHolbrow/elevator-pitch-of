@@ -32,26 +32,19 @@ void Trail::update(float deltaT) {
     float localDeltaT = deltaT * speed;
     time += localDeltaT;
 
-    // Run Physics engine at exactly 1/60 hz
-    for (float innerTime = previousTickTime + tickResolution; innerTime < time; innerTime += tickResolution) {
-        // everything in this loop happens exactly at the same time
-        currentTickTime = innerTime;
 
-        for (auto itr = all.begin(); itr != all.end(); itr++) {
-            // slowly shrink
-            itr->radius *= 1 - (tickResolution * 0.2);
-            // update position based on velocity
-            itr->update(tickResolution);
-        }
-
-//        // potentially add a dot
-//        if (ticksElapsed % 2000 < 1200) {
-//            add();
-//        }
-
-        previousTickTime = innerTime;
-        ticksElapsed++;
+    for (auto itr = all.begin(); itr != all.end(); itr++) {
+        // slowly shrink
+        itr->radius *= 1 - (localDeltaT * 0.2);
+        // update position based on velocity
+        itr->update(localDeltaT);
     }
+
+    // potentially add a dot
+//    if (ticksElapsed % 2000 < 1200) {
+//        add();
+//    }
+
 
     // Vector Methods include:
     // begin()/end() return iterator -- pass this erase()
@@ -66,9 +59,9 @@ void Trail::update(float deltaT) {
 
 void Trail::add() {
     Particle p;
-    p.vel.x = sin(currentTickTime) * 20;
+    p.vel.x = sin(time) * 20;
     p.vel.y = -60;
-    p.radius = 40 - 30 * cos(currentTickTime / 3.);
+    p.radius = 40 - 30 * cos(time / 3.);
     all.push_front(p);
 }
 
@@ -76,8 +69,8 @@ void Trail::add(float x, float y) {
     Particle p;
     p.pos.x = x;
     p.pos.y = y;
-    p.vel.x = sin(currentTickTime) * 20;
+    p.vel.x = sin(time) * 20;
     p.vel.y = -60;
-    p.radius = 40 - 30 * cos(currentTickTime / 3.);
+    p.radius = 40 - 30 * cos(time / 3.);
     all.push_front(p);
 }

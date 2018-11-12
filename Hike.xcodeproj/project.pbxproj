@@ -104,6 +104,7 @@
 		56F4F346219765C300223B55 /* ofxOscParameterSync.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscParameterSync.cpp; sourceTree = "<group>"; };
 		56F4F35721978D1A00223B55 /* gesture.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = gesture.mm; sourceTree = "<group>"; };
 		56F4F35921978D8F00223B55 /* gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gesture.h; sourceTree = "<group>"; };
+		56F4F35B2198D49200223B55 /* ticker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ticker.h; sourceTree = "<group>"; };
 		67DFA53419F92A5E003B3434 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		901808BF2053636F004A7774 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		9936F60F1BFA4DEE00891288 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -380,6 +381,7 @@
 				5602B61B2190D47A00E7AE9B /* trail.mm */,
 				56F4F35721978D1A00223B55 /* gesture.mm */,
 				56F4F35921978D8F00223B55 /* gesture.h */,
+				56F4F35B2198D49200223B55 /* ticker.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

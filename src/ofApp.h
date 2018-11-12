@@ -3,6 +3,7 @@
 #include "ofxiOS.h"
 #include "ofxiOSCoreMotion.h"
 #include "ofxOsc.h"
+#include "ticker.h"
 #include "trail.h"
 #include "gesture.h"
 
@@ -30,9 +31,11 @@ class ofApp : public ofxiOSApp{
     ofxOscSender oscSender;
 
     // My objects
+    Ticker ticker;
     vector < Trail > renderables;
     Gesture gesture;
 
+    bool isDown = false;
     float lastTime = 0;
     ofPolyline l1;
     ofPolyline l2;
