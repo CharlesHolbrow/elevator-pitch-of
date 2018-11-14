@@ -63,8 +63,8 @@ void Trail::add(float x, float y) {
     p.pos.y = y;
     p.vel.x = 0;
     p.vel.y = 0;
-//    p.vel.x = sin(time) * 20;
-//    p.vel.y = -60;
+    p.vel.x = sin(time) * 20;
+    p.vel.y = -60;
     p.radius = 40 - 30 * cos(time / 3.);
     all.push_front(p);
 }

@@ -83,15 +83,16 @@ void ofApp::draw(){
         renderables[i].render();
     };
 
-    ofSetColor(255);
-    auto vertices = l2.getVertices();
-    for (unsigned int i = 0; i < vertices.size(); i++) {
-        auto v = vertices[i];
-        ofDrawCircle(v.x, v.y, 3);
-    }
-    ofSetColor(127);
-    l1.draw();
-    l2.draw();
+    // Debug stuff
+//    ofSetColor(255);
+//    auto vertices = l2.getVertices();
+//    for (unsigned int i = 0; i < vertices.size(); i++) {
+//        auto v = vertices[i];
+//        ofDrawCircle(v.x, v.y, 3);
+//    }
+//    ofSetColor(127);
+//    l1.draw();
+//    l2.draw();
 }
 
 //--------------------------------------------------------------
