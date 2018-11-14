@@ -12,7 +12,6 @@ void Gesture::clear() {
     points.clear();
 }
 
-
 /*
  Add a point to the gesture. The gloablTime must be greater than all
  previously added points. If it is not, the point will not be added.
@@ -29,7 +28,6 @@ void Gesture::append(float x, float y, float globalTime) {
 
     points.push_back(gp);
 }
-
 
 /*
  Get the length of the gesture. -1 if there are no points.
@@ -60,6 +58,9 @@ bool Gesture::isValidAtTime(float globalTime) {
 */
 ofVec2f Gesture::positionAtTime(float globalTime) {
     ofVec2f result;
+    result.x = 0;
+    result.y = 0;
+
     if (points.size() == 0) return result;
     if (points.size() == 1) {
         if (points.back().globalTime == globalTime) return points.back().pos;
@@ -71,13 +72,13 @@ ofVec2f Gesture::positionAtTime(float globalTime) {
 
     // The two points that we are between
     GesturePoint before;
-    GesturePoint after;
+    GesturePoint after = points.back();
 
     for (auto gp = points.begin(); gp != points.end(); gp++) {
         // If we are exactly on the value, just return the position
         if (gp->globalTime == globalTime) return gp->pos;
         // If we run past the end, we're okay
-        if (gp->globalTime >= globalTime || gp == points.end()) {
+        if (gp->globalTime >= globalTime) {
             after = *gp;
             break;
         }
