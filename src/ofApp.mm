@@ -9,6 +9,7 @@ void ofApp::setup(){
     coreMotion.setupAccelerometer();
     coreMotion.setupGyroscope();
     coreMotion.setupAttitude(CMAttitudeReferenceFrameXMagneticNorthZVertical);
+    oscSender.setup("18.40.61.48", 7400);
 
 
     Trail t1; // currently unused
@@ -61,6 +62,14 @@ void ofApp::update(){
         ofLog() << globalDeltaTime << " uneven frame " << ticksThisFrame << " | " << renderables.back().size();
     }
 
+    // Seond OSC!!
+    // Get accelerometer info
+    auto v = coreMotion.getAccelerometerData() - coreMotion.getGravity();
+    // Create, send message
+    ofxOscMessage msg;
+    msg.setAddress("/acceleration/length");
+    msg.addFloatArg(v.length());
+    oscSender.sendMessage(msg);
 }
 
 //--------------------------------------------------------------
