@@ -28,7 +28,8 @@ class ofApp : public ofxiOSApp{
 
     // ofx addons
     ofxiOSCoreMotion coreMotion;
-    ofxOscSender oscSender;
+    ofxOscSender oscRebecca;
+    ofxOscSender oscPat;
 
     // My objects
     Ticker ticker;
@@ -36,6 +37,10 @@ class ofApp : public ofxiOSApp{
     Gesture gesture;
 
     // misc helpers
+    ofVec3f gravity;
+    ofVec3f acceleration;
+    ofVec3f accelerationChange;
+
     bool isDown = false;
     float lastTime = 0;
     ofPolyline l1;

@@ -9,7 +9,8 @@ void ofApp::setup(){
     coreMotion.setupAccelerometer();
     coreMotion.setupGyroscope();
     coreMotion.setupAttitude(CMAttitudeReferenceFrameXMagneticNorthZVertical);
-    oscSender.setup("18.40.61.48", 7400);
+    oscRebecca.setup("rebeccas-mbp.media.mit.edu", 7400);
+    oscPat.setup("pats-mbp.media.mit.edu", 7400);
 
 
     Trail t1; // currently unused
@@ -29,6 +30,10 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     coreMotion.update();
+    gravity = coreMotion.getGravity();
+    ofVec3f newAcceleration = coreMotion.getAccelerometerData() - gravity;
+    accelerationChange = newAcceleration - acceleration;
+    acceleration = newAcceleration;
 
     float absoluteTime = ofGetElapsedTimef();
     ticker.setTime(absoluteTime);
@@ -44,7 +49,7 @@ void ofApp::update(){
         ticksThisFrame++;
         // Run our physics engine on all the renderables
         for (unsigned int i = 0; i < renderables.size(); i++) {
-            renderables[i].update(tickDelta);
+            renderables[i].update(tickDelta, ofVec2f(gravity.x * -50, gravity.y * 50));
         }
 
         if (isDown && renderables.size()) {
@@ -63,13 +68,19 @@ void ofApp::update(){
     }
 
     // Seond OSC!!
-    // Get accelerometer info
-    auto v = coreMotion.getAccelerometerData() - coreMotion.getGravity();
     // Create, send message
-    ofxOscMessage msg;
-    msg.setAddress("/acceleration/length");
-    msg.addFloatArg(v.length());
-    oscSender.sendMessage(msg);
+    ofxOscMessage length;
+    length.setAddress("/acceleration/length");
+    length.addFloatArg(acceleration.length());
+    ofxOscMessage xyz;
+    xyz.setAddress("/acceleration/xyz");
+    xyz.addFloatArg(acceleration.x);
+    xyz.addFloatArg(acceleration.y);
+    xyz.addFloatArg(acceleration.z);
+    oscRebecca.sendMessage(length);
+    oscPat.sendMessage(length);
+    oscRebecca.sendMessage(xyz);
+    oscPat.sendMessage(xyz);
 }
 
 //--------------------------------------------------------------

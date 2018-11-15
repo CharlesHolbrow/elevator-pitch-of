@@ -11,14 +11,18 @@
 void Trail::render() {
     unsigned int i = 0;
     for (auto itr = all.cbegin(); itr != all.cend(); ++itr) {
-
-        float r = 128 + 127 * cos(time * 0.4 + i * 0.01);
-        float g = 128 + 127 * cos(time * 0.2);
-        float b = 128 + 127 * cos(time * 0.7);
+        
+        float r = 128 + 127 * cos(time * 0.2 + i * 0.005);
+        float g = 128 + 127 * cos(time * 0.01);
+        float b = 128 + 127 * cos(time * 0.45 + i * 0.001);
         ofSetColor(r, g, b);
-
+        
         ofVec2f gPos = pos + itr->pos; // global position
-        ofDrawCircle(gPos.x, gPos.y, itr->radius);
+        float x = gPos.x;
+        float y = gPos.y;
+        float radius = itr->radius;
+        
+        ofDrawCircle(x, y, radius);
         i++;
     }
 }
@@ -28,6 +32,10 @@ void Trail::setup() {
 }
 
 void Trail::update(float deltaT) {
+    update(deltaT, ofVec2f(0, 0));
+}
+
+void Trail::update(float deltaT, ofVec2f force) {
     // total duration since last update
     float localDeltaT = deltaT * speed;
     time += localDeltaT;
@@ -37,7 +45,7 @@ void Trail::update(float deltaT) {
         // slowly shrink
         itr->radius *= 1 - (localDeltaT * 0.2);
         // update position based on velocity
-        itr->update(localDeltaT);
+        itr->update(localDeltaT, force);
     }
 
     // potentially add a dot
@@ -63,8 +71,8 @@ void Trail::add(float x, float y) {
     p.pos.y = y;
     p.vel.x = 0;
     p.vel.y = 0;
-    p.vel.x = sin(time) * 20;
-    p.vel.y = -60;
+    p.vel.x = sin(time) * 15;
+    p.vel.y = cos(time) * 15;
     p.radius = 40 - 30 * cos(time / 3.);
     all.push_front(p);
 }

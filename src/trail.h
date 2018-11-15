@@ -21,6 +21,10 @@ struct Particle {
     void update(float deltaT) {
         pos += deltaT *  vel;
     };
+    
+    void update(float deltaT, ofVec2f force) {
+        pos += deltaT * (vel + force);
+    };
 };
 
 class Trail {
@@ -34,6 +38,7 @@ public:
     float speed = 1;
     void render();
     void update(float deltaT);
+    void update(float deltaT, ofVec2f force);
     void setup();
     void add(float x, float y);
     int size() { return all.size(); };
